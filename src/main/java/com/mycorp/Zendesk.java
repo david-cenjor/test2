@@ -60,9 +60,12 @@ public class Zendesk implements Closeable {
     }
 
     public Ticket createTicket(Ticket ticket) {
-        return complete(submit(req("POST", cnst("/tickets.json"),
-                        JSON, json(Collections.singletonMap("ticket", ticket))),
-                handle(Ticket.class, "ticket")));
+        return complete(submit(
+    			req("POST", cnst("/tickets.json"), 
+    			JSON, 
+    			json(Collections.singletonMap("ticket", ticket))),
+            	handle(Ticket.class, "ticket")
+            	));
     }
 
     private byte[] json(Object object) {
@@ -155,6 +158,7 @@ public class Zendesk implements Closeable {
             if (isStatus2xx(response)) {
                 if (typeParams.length > 0) {
                     JavaType type = mapper.getTypeFactory().constructParametricType(clazz, typeParams);
+                	//JavaType type = mapper.getTypeFactory().constructParametrizedType(clazz, clazz, typeParams);
                     return mapper.convertValue(mapper.readTree(response.getResponseBodyAsStream()).get(name), type);
                 }
                 return mapper.convertValue(mapper.readTree(response.getResponseBodyAsStream()).get(name), clazz);
