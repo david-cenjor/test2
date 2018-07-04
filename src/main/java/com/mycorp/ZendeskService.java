@@ -178,30 +178,32 @@ public class ZendeskService {
     	String ticket = String.format(PETICION_ZENDESK, clientName.toString(), usuarioAlta.getEmail(), datosUsuario.toString()+datosBravo.toString()+
                 parseJsonBravo(datosServicio));
         ticket = ticket.replaceAll("["+ESCAPED_LINE_SEPARATOR+"]", " ");
-        
+        //ticket = "[{\"tag\":\"Volume_D1_10m\",\"value\":0.0,\"quality\":1,\"site\":1,\"supplier\":2,\"zone\":0,\"timestamp\":1470297561000},{\"tag\":\"Tmoy_T4_10m\",\"value\":19.2,\"quality\":1,\"site\":1,\"supplier\":2,\"zone\":0,\"timestamp\":1470297561000}]";
     	try(Zendesk zendesk = new Zendesk.Builder(URL_ZENDESK).setUsername(ZENDESK_USER).setToken(TOKEN_ZENDESK).build()){
             //Ticket
             Ticket petiZendesk = mapper.readValue(ticket, Ticket.class);
             zendesk.createTicket(petiZendesk);
 
         }catch(Exception e){
-            LOG.error("Error al crear ticket ZENDESK", e);
-            // Send email
-
-            CorreoElectronico correo = new CorreoElectronico( Long.parseLong(ZENDESK_ERROR_MAIL_FUNCIONALIDAD), "es" )
-                    .addParam(datosUsuario.toString().replaceAll(ESCAPE_ER+ESCAPED_LINE_SEPARATOR, HTML_BR))
-                    .addParam(datosBravo.toString().replaceAll(ESCAPE_ER+ESCAPED_LINE_SEPARATOR, HTML_BR));
-            correo.setEmailA( ZENDESK_ERROR_DESTINATARIO );
-            try
-            {
-                emailService.enviar( correo );
-                envioCorrecto = true;
-            }catch(Exception ex){
-                LOG.error("Error al enviar mail", ex);
-            }
-
+        	envioCorrecto = enviarCorreoElectronico(emailService, datosUsuario, datosBravo);
         }
     	return envioCorrecto;
+    }
+    
+    boolean enviarCorreoElectronico(MensajeriaService emailService, StringBuilder datosUsuario, StringBuilder datosBravo){
+    	boolean envioCorrecto = false;
+    	CorreoElectronico correo = new CorreoElectronico( Long.parseLong(ZENDESK_ERROR_MAIL_FUNCIONALIDAD), "es" )
+                .addParam(datosUsuario.toString().replaceAll(ESCAPE_ER+ESCAPED_LINE_SEPARATOR, HTML_BR))
+                .addParam(datosBravo.toString().replaceAll(ESCAPE_ER+ESCAPED_LINE_SEPARATOR, HTML_BR));
+        correo.setEmailA( ZENDESK_ERROR_DESTINATARIO );
+        try
+        {
+            emailService.enviar( correo );
+            envioCorrecto = true;
+        }catch(Exception ex){
+            LOG.error("Error al enviar mail", ex);
+        }
+        return envioCorrecto;
     }
     
     public List< ValueCode > getTiposDocumentosRegistro() {
