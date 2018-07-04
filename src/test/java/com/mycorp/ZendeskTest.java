@@ -11,7 +11,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mycorp.Zendesk.Builder;
 import com.mycorp.support.DatosCliente;
 import com.mycorp.support.Ticket;
-import com.ning.http.client.AsyncHttpClient;
 
 import junit.framework.TestCase;
 
@@ -43,9 +42,7 @@ public class ZendeskTest extends TestCase {
         assertNotNull(builder.build());
     }
 	
-	@Resource
-	ZendeskService zendeskService;
-	
+	/*
 	@Test
     public <T> void testCreateTicket() {
 		Ticket ticket = new Ticket();
@@ -57,5 +54,5 @@ public class ZendeskTest extends TestCase {
 		ticket = zd.createTicket(ticket);
 		assertNotNull(ticket);
     }
-	
+	*/
 }
