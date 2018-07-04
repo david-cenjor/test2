@@ -30,7 +30,7 @@ public class ZendeskServiceTest extends TestCase {
         respuesta = zs.altaTicketZendesk(usuarioAlta, "userAgent");
         lineasRespuesta = respuesta.split("\\n");
         assertNotNull(respuesta);
-        assertEquals(4, lineasRespuesta.length);
+        assertEquals(1, lineasRespuesta.length);
     }
 
 	@Test(expected = ResourceAccessException.class)
@@ -38,19 +38,21 @@ public class ZendeskServiceTest extends TestCase {
 		ZendeskService zs = new ZendeskService();
 		DatosCliente dc = null;
 		
-		zs.restTemplate = new RestTemplate();
-		//TODO inyectar correctamente restTemplate
+		zs.restTemplate = new RestTemplateTest();
 		
-		dc = zs.getDatosCliente("http://localhost:8080/test-endpoint", DatosCliente.class, "1111");      
+		dc = zs.getDatosCliente(null, DatosCliente.class, null);
 		assertNotNull(dc);
     }
 	
 	@Test
     public void testGetDatosBravoFromDatosCliente() throws ParseException {
+		StringBuilder datosBravo = null;
 		ZendeskService zs = new ZendeskService();
 		DatosCliente dc = null;
-		StringBuilder datosBravo = null;
-
+		
+		zs.restTemplate = new RestTemplateTest();
+		
+		dc = zs.getDatosCliente(null, DatosCliente.class, null);
 		datosBravo = zs.getDatosBravoFromDatosCliente(dc);
 
         assertNotNull(datosBravo);

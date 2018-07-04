@@ -1,0 +1,6 @@
+#NOTE: This is an internal implementation file, its format can be changed without prior notice.
+#Wed Jul 04 12:34:25 CEST 2018
+default-http\://vsagquajboss1.agri.jclm.es/artifactory/plugins-release/.lastUpdated=1530700465870
+http\://vsagquajboss1.agri.jclm.es/artifactory/plugins-release/.error=Could not transfer artifact org.jacoco\:jacoco-maven-plugin\:pom\:0.7.9 from/to central (http\://vsagquajboss1.agri.jclm.es/artifactory/plugins-release)\: vsagquajboss1.agri.jclm.es\: Name or service not known
+http\://vsagquajboss1.agri.jclm.es/artifactory/plugins-snapshot/.error=Could not transfer artifact org.jacoco\:jacoco-maven-plugin\:pom\:0.7.9 from/to snapshots (http\://vsagquajboss1.agri.jclm.es/artifactory/plugins-snapshot)\: vsagquajboss1.agri.jclm.es
+default-http\://vsagquajboss1.agri.jclm.es/artifactory/plugins-snapshot/.lastUpdated=1530700465885

@@ -205,7 +205,13 @@ public class ZendeskService {
     }
     
     public List< ValueCode > getTiposDocumentosRegistro() {
-        return Arrays.asList( new ValueCode(), new ValueCode() ); // simulacion servicio externo
+    	ValueCode vc1 = new ValueCode();
+    	vc1.setCode("1");
+    	vc1.setValue("valor1");
+    	ValueCode vc2 = new ValueCode();
+    	vc2.setCode("2");
+    	vc2.setValue("valor2");
+    	return Arrays.asList( vc1, vc2 ); // simulacion servicio externo
     }
 
     /**
