@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.ImportResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -129,10 +130,7 @@ public class ZendeskService {
         else if(StringUtils.isNotBlank(usuarioAlta.getNumPoliza())){
             try
             {
-                Poliza poliza = new Poliza();
-                poliza.setNumPoliza(Integer.valueOf(usuarioAlta.getNumPoliza()));
-                poliza.setNumColectivo(Integer.valueOf(usuarioAlta.getNumDocAcreditativo()));
-                poliza.setCompania(1);
+                Poliza poliza = getPoliza(usuarioAlta);
 
                 PolizaBasico polizaBasicoConsulta = new PolizaBasicoFromPolizaBuilder().withPoliza( poliza ).build();
 
@@ -173,6 +171,14 @@ public class ZendeskService {
         return datosUsuario.toString();
     }
 
+    Poliza getPoliza(UsuarioAlta usuarioAlta){
+    	Poliza poliza = new Poliza();
+        poliza.setNumPoliza(Integer.valueOf(usuarioAlta.getNumPoliza()));
+        poliza.setNumColectivo(Integer.valueOf(usuarioAlta.getNumDocAcreditativo()));
+        poliza.setCompania(1);
+        return poliza;
+    }
+    
     boolean crearTicketZendesk(ObjectMapper mapper, StringBuilder datosServicio, UsuarioAlta usuarioAlta, StringBuilder datosUsuario, StringBuilder datosBravo, StringBuilder clientName){
     	boolean envioCorrecto = false;
     	String ticket = String.format(PETICION_ZENDESK, clientName.toString(), usuarioAlta.getEmail(), datosUsuario.toString()+datosBravo.toString()+

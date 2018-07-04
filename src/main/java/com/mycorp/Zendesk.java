@@ -36,7 +36,6 @@ public class Zendesk implements Closeable {
     private final Logger logger;
     private boolean closed = false;
 
-
     private Zendesk(AsyncHttpClient client, String url, String username, String password) {
         this.logger = LoggerFactory.getLogger(Zendesk.class);
         this.closeClient = client == null;

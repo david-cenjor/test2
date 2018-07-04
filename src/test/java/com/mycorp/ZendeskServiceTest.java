@@ -8,6 +8,11 @@ import java.util.concurrent.TimeoutException;
 import javax.xml.ws.Response;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
@@ -51,6 +56,9 @@ public class ZendeskServiceTest extends TestCase {
         assertNotNull(datosBravo);
     }
 	
+	@Autowired
+    @Qualifier( "emailService" )
+    MensajeriaService emailService;
 	
 	@Test
     public void testEnviarCorreoElectronico() {
@@ -91,4 +99,13 @@ public class ZendeskServiceTest extends TestCase {
 		assertFalse(envioCorrecto);
     }
 	*/
+	
+	
+	@Test
+    public void testGetPoliza() {
+		ZendeskService zs = new ZendeskService();
+		zs.restTemplate = new RestTemplateTest();
+		UsuarioAlta usuarioAlta = new UsuarioAltaTest();
+		assertNotNull(zs.getPoliza(usuarioAlta));
+	}
 }
